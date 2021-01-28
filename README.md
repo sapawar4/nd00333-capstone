@@ -88,7 +88,7 @@ The Voting Classifier had following 8 models in it:
 | LighGBM | MaxAbs, max_depth = -1, n_estimators=100, min_child_samples=20
 | ExtraTreesClassifier | min_samples_split=0.056, max_features=0.3,n_estimators=25
 
-
+Below screenshot shows how different models performed. The best models were Voting Ensemble, Stacking Ensemble and ExtremeRandomtrees. Voting classifier did significantly better than the rest.
 
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl.JPG)
 Below screenshot shows how the RunDetails widget in the notebook and how the models performed.
