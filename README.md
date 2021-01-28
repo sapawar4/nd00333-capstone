@@ -133,7 +133,7 @@ RunDetails widgets showing the progress of the hyperdrive with metric for each r
 
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/hpo2.JPG)
 
-The difference between VotingClassifier from HyperDrive and AutoML is that, HyperDrive models use the same preprocessing steps but are different types of algorithms (tree + linear), whereas AutoML models are all tree-based and have different preprocessing steps (Standard scaling, Max Abs Scaling etc.)
+The difference between VotingClassifier from HyperDrive and AutoML is that, HyperDrive models use the same preprocessing steps but are different types of algorithms (tree + linear), whereas AutoML models are all tree-based and have different preprocessing steps (Standard scaling, Max Abs Scaling etc.). HyperDrive includes LogisticRegression, Gradient Boosting, RandomForest, SVC. 
 
 
 
