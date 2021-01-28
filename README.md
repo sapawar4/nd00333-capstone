@@ -4,6 +4,11 @@
 
 In this final project, I chose a high-demensional real-world messy data to showcase how Azure ML can be used to operationalize a machine learning pipeline. The goal of this project is to predict if a machine will pass or fail based on number of measurements. Many different preprocessing techniques and algorithms are explored and final model was chosen between a optimized model and an AutoML model. The model optimized with AzureML HyperDrive was deployed in service for real-time inferencing. 
  
+## Architecture 
+
+![](https://docs.microsoft.com/en-us/azure/architecture/browse/thumbs/information-discovery-with-deep-learning-and-nlp.png)
+
+As shown in the architecture diagram above, data will be retrieved from the data source and machine learning model will be built using Azure ML Service. Remote compute cluster is used to train large number of models and the final model is deployed in service using ACI/AKS inference cluster. The end-user can rerieve it via web service API. 
 
 ## Dataset
 
