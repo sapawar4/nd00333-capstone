@@ -71,13 +71,34 @@ AutoML configuration is described below:
 
 ### Results
 
+The best AutoML model was a Voting classifier with  Weighted_AUC = 77.58%. The votingclassifier includes several different types of classifiers and predictions are made by averaging the probabilities from the individual classifiers.  
+
+![](http://rasbt.github.io/mlxtend/user_guide/classifier/StackingClassifier_files/stackingclassification_overview.png)
+[Reference](http://rasbt.github.io/mlxtend/user_guide/classifier/StackingClassifier/)
+
+The Voting Classifier had following 8 models in it:
+
+| Classifier | Parameters 
+|--|--|
+| RandomForestClassifier | MinMax, max_depth = none, min_sample_leaf = 0.01, n_estimators = 25 |
+| ExtraTreesClassifier | Robust, max_depth = none, min_sample_leaf = 0.01, n_estimators = 25 |
+| ExtraTreesClassifier | MinMax, max_depth = none, min_sample_leaf = 0.01, n_estimators = 10 |
+| ExtraTreesClassifier | StandardScaler, max_depth = none, min_sample_leaf = 0.01, n_estimators = 10 |
+| RandomForestClassifier | MinMax, max_depth = none, min_sample_leaf = 0.01, n_estimators = 10 | RandomForestClassifier | MinMax, max_depth = none, min_sample_split = 0.10, n_estimators = 10 
+| LighGBM | MaxAbs, max_depth = -1, n_estimators=100, min_child_samples=20
+| ExtraTreesClassifier | min_samples_split=0.056, max_features=0.3,n_estimators=25
+
+
+
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl.JPG)
+Below screenshot shows how the RunDetails widget in the notebook and how the models performed.
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl2.JPG)
+Metric information about the final model from AutoML. AUC is area under the ROC curve. For the best model, ROC = 77.45%
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl3.JPG)
 
-The best AutoML model was a voting ensemble model which had weighted AUC of 77.4%.
 
-## Hyperparameter Tuning
+## Hyperparameter Tuning with HyperDrive
+
 - Number of different individual algorithms such as SVC, LogisticRegression, Lasso, Ridge, RandomForest, GradientBoostingClassifier were used. Finally ensembling using voting and stacking were also trained. 
 - For preprocessing, all the columns were
 	- Imputed
@@ -97,17 +118,19 @@ The best AutoML model was a voting ensemble model which had weighted AUC of 77.4
 ### Results
 Final model was Voting Classifier with:
 	- C: 5
-	- Random forest n_estimators = 
+	- Random forest n_estimators = 100
 	- Random Forest max_depth = 7
 	- Random forest min_sample_split = 3
 
 With these parameters the mean AUC = 77%. Untuned voting classifier was 75%
+RunDetails widgets showing the progress of the hyperdrive with metric for each run. 
 
-![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/hpo.JPG)
+![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/hpo.JPG)Below plot shows how the hypertuning progresses. Bayesian optimization progressively gets better. The best model was found at run # 31. Parallel coordinate plots shows which parameters led to high scores . In general it doesnt look like any one particular parameter always performed the best, its the combination of different parameters. 
+
 
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/hpo2.JPG)
-![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/hpo3.JPG)
 
+The difference between VotingClassifier from HyperDrive and AutoML is that, HyperDrive models use the same preprocessing steps but are different types of algorithms (tree + linear), whereas AutoML models are all tree-based and have different preprocessing steps (Standard scaling, Max Abs Scaling etc.)
 
 
 
@@ -126,5 +149,6 @@ Youtube: https://youtu.be/hhXCZMxxNSY
 ## Standout Suggestions
 1. Try undersampling, oversampling, SMOTE etc
 2. Different imputation techniques
+
 
 
