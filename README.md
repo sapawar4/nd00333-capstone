@@ -142,6 +142,10 @@ As the difference in performance between hyperdrive model and automl model wasn'
 
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/service.JPG)
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/service%202.JPG)
+
+Sample input was sent to the service using scoring_uri as a POST request to test the service and it was successful
+
+![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/service%20response.JPG)
 Service was deleted after testing.
 
 
