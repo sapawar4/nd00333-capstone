@@ -53,7 +53,24 @@ Keeping this in mind, we will have to build a pipeline that will include:
 - 5 fold cross-validation was used to mitigate overfitting
 - Experiment was set to timeout at 20 minutes
 
+### Configuration
+
+AutoML configuration is described below: 
+
+| Configuration & Description | Value | 
+|--|--|
+| *experiment_timeout_minutes* - Max duration of time in min the experiment should be run | 20 |
+| *task* - Training task if regression or classification | Classification |
+| *primary_metric* - Metric to optimize, AUC because of imbalanced data | 'AUC_weighted' |
+| *n_cross_validations* - Cross validation folds for training to prevent overfitting | 5' |
+| *training_data* - dataset used for training. Registered dataset | amlds |
+| *compute_target* - Remote compute cluster to use | vm |
+| *label_column_name* - target label to use | 'y' |
+
+
+
 ### Results
+
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl.JPG)
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl2.JPG)
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl3.JPG)
@@ -99,7 +116,7 @@ As the difference in performance between hyperdrive model and automl model wasn'
 
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/service.JPG)
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/service%202.JPG)
-Servcie was deleted after testing.
+Service was deleted after testing.
 
 
 
@@ -109,4 +126,5 @@ Youtube: https://youtu.be/hhXCZMxxNSY
 ## Standout Suggestions
 1. Try undersampling, oversampling, SMOTE etc
 2. Different imputation techniques
+
 
