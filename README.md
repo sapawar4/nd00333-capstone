@@ -93,7 +93,10 @@ Below screenshot shows how different models performed. The best models were Voti
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl.JPG)
 Below screenshot shows how the RunDetails widget in the notebook and how the models performed.
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl2.JPG)
+
 Metric information about the final model from AutoML. AUC is area under the ROC curve. For the best model, ROC = 77.45%
+
+
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl3.JPG)
 
 
