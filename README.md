@@ -64,7 +64,7 @@ AutoML configuration is described below:
 | *primary_metric* - Metric to optimize, AUC because of imbalanced data | 'AUC_weighted' |
 | *n_cross_validations* - Cross validation folds for training to prevent overfitting | 5' |
 | *training_data* - dataset used for training. Registered dataset | amlds |
-| *compute_target* - Remote compute cluster to use | vm |
+| *compute_target* - Remote compute cluster to use | Standard_DS2_V2 |
 | *label_column_name* - target label to use | 'y' |
 
 
