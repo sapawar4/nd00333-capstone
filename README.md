@@ -115,6 +115,8 @@ Below are various evaluation metrics for the final model. As seen below the fina
 
 
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl/3.JPG)
+
+
 The final best AutoML model was retrieved and registered in Azure ML service.
 
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl/4.JPG)
@@ -142,6 +144,7 @@ The final best AutoML model was retrieved and registered in Azure ML service.
 - 
 ### Results
 Final model was Voting Classifier with:
+
 	- C: 5
 	- Random forest n_estimators = 100
 	- Random Forest max_depth = 7
@@ -161,7 +164,7 @@ The difference between VotingClassifier from HyperDrive and AutoML is that, Hype
 HyperDrive models is more diverse and diverse models tend to generalize better.
 
 |Method|AUC  |
-|--|--|--|--|
+|--|--|
 |HyperDrive  | 77% |
 |AutoML  | 76.7% |
 
