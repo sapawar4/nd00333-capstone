@@ -96,6 +96,8 @@ Below screenshot shows how different models performed. The best models were Voti
 
 
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl/1.JPG)
+
+
 The final VotingClassifier model with its parameters are below: 
 
 The weights of the model are : 
@@ -171,7 +173,7 @@ HyperDrive models is more diverse and diverse models tend to generalize better.
 |Method|AUC  |
 |--|--|
 |HyperDrive  | 77% |
-|AutoML  | 77.6.7% |
+|AutoML  | 77.6% |
 
 
 
@@ -183,7 +185,7 @@ As the HyperDrive model had better AUC, it was deployed in service for real time
 
 
 
-![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/service.JPG)
+![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl/6.JPG)
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/service%202.JPG)
 
 Sample input was sent to the service using scoring_uri as a POST request to test the service and it was successful
