@@ -188,7 +188,7 @@ As the HyperDrive model had better AUC, it was deployed in service for real time
 
 
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl/6.JPG)
-![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/service%202.JPG)
+
 
 Sample input was sent to the service using scoring_uri as a POST request to test the service and it was successful
 
