@@ -161,6 +161,8 @@ With these parameters the mean AUC = 77%. Untuned voting classifier was 75%
 RunDetails widgets showing the progress of the hyperdrive with metric for each run. 
 
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/hpo.JPG)
+
+
 Below plot shows how the hypertuning progressed. Bayesian optimization progressively gets better. The best model was found at run # 31. Parallel coordinate plots shows which parameters led to high scores . In general it doesnt look like any one particular parameter always performed the best, its the combination of different parameters. 
 
 
