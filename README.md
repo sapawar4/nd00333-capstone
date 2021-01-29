@@ -8,7 +8,7 @@ In this final project, I chose a high-demensional real-world messy data to showc
 
 ![](https://docs.microsoft.com/en-us/azure/architecture/browse/thumbs/information-discovery-with-deep-learning-and-nlp.png)
 
-As shown in the architecture diagram above, data will be retrieved from the data source and machine learning model will be built using Azure ML Service. Remote compute cluster is used to train large number of models and the final model is deployed in service using ACI/AKS inference cluster. The end-user can rerieve it via web service API. 
+As shown in the architecture diagram above, data will be retrieved from the data source and machine learning model will be built using Azure ML Service. Remote compute cluster is used to train large number of models and the final model is deployed in service using ACI inference cluster. The end-user can retrieve it via web service API. 
 
 ## Dataset
 
@@ -49,7 +49,7 @@ Keeping this in mind, we will have to build a pipeline that will include:
 
 ## Automated ML
 - Since it's an imbalanced dataset, `Weighted_AUC` is used the primary metric
-- Remote compute `DS2V2` was used for training
+- Remote compute `Standard_DS2_V2` was used for training
 - 5 fold cross-validation was used to mitigate overfitting
 - Experiment was set to timeout at 20 minutes
 
@@ -71,33 +71,53 @@ AutoML configuration is described below:
 
 ### Results
 
-The best AutoML model was a Voting classifier with  Weighted_AUC = 77.58%. The votingclassifier includes several different types of classifiers and predictions are made by averaging the probabilities from the individual classifiers.  
+The best AutoML model was a Voting classifier with  Weighted_AUC = 76.7%. The [Votingclassifier](http://rasbt.github.io/mlxtend/user_guide/classifier/StackingClassifier/) includes several different types of classifiers and predictions are made by averaging the probabilities from the individual classifiers.  
 
 ![](http://rasbt.github.io/mlxtend/user_guide/classifier/StackingClassifier_files/stackingclassification_overview.png)
-[Reference](http://rasbt.github.io/mlxtend/user_guide/classifier/StackingClassifier/)
 
-The Voting Classifier had following 8 models in it:
+
+The Voting Classifier had following 9 models in it:
 
 | Classifier | Parameters 
 |--|--|
-| RandomForestClassifier | MinMax, max_depth = none, min_sample_leaf = 0.01, n_estimators = 25 |
-| ExtraTreesClassifier | Robust, max_depth = none, min_sample_leaf = 0.01, n_estimators = 25 |
-| ExtraTreesClassifier | MinMax, max_depth = none, min_sample_leaf = 0.01, n_estimators = 10 |
-| ExtraTreesClassifier | StandardScaler, max_depth = none, min_sample_leaf = 0.01, n_estimators = 10 |
-| RandomForestClassifier | MinMax, max_depth = none, min_sample_leaf = 0.01, n_estimators = 10 | RandomForestClassifier | MinMax, max_depth = none, min_sample_split = 0.10, n_estimators = 10 
-| LighGBM | MaxAbs, max_depth = -1, n_estimators=100, min_child_samples=20
-| ExtraTreesClassifier | min_samples_split=0.056, max_features=0.3,n_estimators=25
+| ExtraTreesClassifier | MinMax, max_features=0.3, min_sample_leaf = 0.01, n_estimators=25 |
+| LightGBMClassifier | MaxAbs, num_leaves=31, n_estimators=100, max_depth=-1 |
+| ExtraTreesClassifier | MinMax, min_samples_split=0.15, max_features=0.9, n_estimators = 10 |
+| ExtraTreesClassifier | RobustScaler, min_samples_split=0.15, n_estimators=25, max_features=0.5 |
+| RandomForestClassifier | MinMax, max_depth = none, min_sample_leaf = 0.01, n_estimators = 10 | XGBoostClassifier | MaxAbs, max_depth = -1, learning_rate=0.3, n_estimators=100 
+| RandomForestClassifier | MinMax, max_features='log2',n_estimators=25, min_samples_leaf=0.01
+| RandomForestClassifier | MnMax, min_samples_leaf=0.035, max_features='sqrt', min_samples_split=0.01
+| KNeighborsClassifier | sparsenormalizer, leaf_size=30,n_neighbors=9, p=2, 
 
 Below screenshot shows how different models performed. The best models were Voting Ensemble, Stacking Ensemble and ExtremeRandomtrees. Voting classifier did significantly better than the rest.
 
-![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl.JPG)
-Below screenshot shows how the RunDetails widget in the notebook and how the models performed.
-![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl2.JPG)
 
-Metric information about the final model from AutoML. AUC is area under the ROC curve. For the best model, ROC = 77.45%
+![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl/1.JPG)
+The final VotingClassifier model with its parameters are below: 
+
+The weights of the model are : 
+|Classifier| Weight|
+|--|--|
+| ExtraTreesClassifier | 20% |
+| LightGBMClassifier | 13% |
+| ExtraTreesClassifier | 6.6% |
+| ExtraTreesClassifier | 6.6% |
+| RandomForestClassifier | 13% |
+| XGBoostClassifier | 20% |
+| RandomForestClassifier | 6.6% |
+| RandomForestClassifier | 6.6% |
+| KNeighborsClassifier | 6.6% |
 
 
-![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl3.JPG)
+
+![voting](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl/2.JPG)
+Below are various evaluation metrics for the final model. As seen below the final model had AUC of 76.7%. Notice that the accuracy is 93% which is the proportion of the majority class (Pass). The worst classifier we can have is one with AUC = 0.5. So in this if we had used all predictions = majority class, the accuracy would have been 93% but the AUC = 0.5. We did significantly better than a random guess classifier.
+
+
+![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl/3.JPG)
+The final best AutoML model was retrieved and registered in Azure ML service.
+
+![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl/4.JPG)
 
 
 ## Hyperparameter Tuning with HyperDrive
@@ -115,6 +135,8 @@ Metric information about the final model from AutoML. AUC is area under the ROC 
 	- No of estimators in Random Forest
 	- Depth of tree in Random Forest
 	- Min sample split in Random Forest
+
+
 - Bayesian optimization was used considering large number of parameters. Bayesian optimization typically converges faster and often gives better results
 - Bayesian optimization does not acceept Early stopping policy, hence max time of 20 was used
 - 
@@ -128,17 +150,30 @@ Final model was Voting Classifier with:
 With these parameters the mean AUC = 77%. Untuned voting classifier was 75%
 RunDetails widgets showing the progress of the hyperdrive with metric for each run. 
 
-![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/hpo.JPG)Below plot shows how the hypertuning progresses. Bayesian optimization progressively gets better. The best model was found at run # 31. Parallel coordinate plots shows which parameters led to high scores . In general it doesnt look like any one particular parameter always performed the best, its the combination of different parameters. 
+![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/hpo.JPG)
+Below plot shows how the hypertuning progressed. Bayesian optimization progressively gets better. The best model was found at run # 31. Parallel coordinate plots shows which parameters led to high scores . In general it doesnt look like any one particular parameter always performed the best, its the combination of different parameters. 
 
 
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/hpo2.JPG)
 
-The difference between VotingClassifier from HyperDrive and AutoML is that, HyperDrive models use the same preprocessing steps but are different types of algorithms (tree + linear), whereas AutoML models are all tree-based and have different preprocessing steps (Standard scaling, Max Abs Scaling etc.). HyperDrive includes LogisticRegression, Gradient Boosting, RandomForest, SVC. 
+The difference between VotingClassifier from HyperDrive and AutoML is that, HyperDrive models use the same preprocessing steps but are different types of algorithms (tree + linear), whereas AutoML models are mostly tree-based and have different preprocessing steps (Standard scaling, Max Abs Scaling etc.). HyperDrive includes LogisticRegression, Gradient Boosting, RandomForest, SVC. 
+
+HyperDrive models is more diverse and diverse models tend to generalize better.
+
+|Method|AUC  |
+|--|--|--|--|
+|HyperDrive  | 77% |
+|AutoML  | 76.7% |
+
 
 
 
 ## Model Deployment
-As the difference in performance between hyperdrive model and automl model wasn't significant, hyperdrive model was chosen for deployment for practice. The final model was deployed in service using Azure Container Instance and was tested to ensure its healthy active status. 
+As the HyperDrive model had better AUC, it was deployed in service for real time inferencing using ACI. Both models were registered but only HyperDrive was deployed. 
+![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/automl/5.JPG)
+ The final model was deployed in service using Azure Container Instance and was tested to ensure its healthy active status. 
+
+
 
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/service.JPG)
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/service%202.JPG)
@@ -151,11 +186,12 @@ Service was deleted after testing.
 
 
 ## Screen Recording
-Youtube: https://youtu.be/hhXCZMxxNSY
+Youtube: https://youtu.be/9Im2AntsmBU
 
 ## Standout Suggestions
 1. Try undersampling, oversampling, SMOTE etc
 2. Different imputation techniques
+
 
 
 
