@@ -71,23 +71,26 @@ AutoML configuration is described below:
 
 ### Results
 
-The best AutoML model was a Voting classifier with  Weighted_AUC = 76.7%. The [Votingclassifier](http://rasbt.github.io/mlxtend/user_guide/classifier/StackingClassifier/) includes several different types of classifiers and predictions are made by averaging the probabilities from the individual classifiers.  
+The best AutoML model was a Voting classifier with  Weighted_AUC = 77.5%. The [Votingclassifier](http://rasbt.github.io/mlxtend/user_guide/classifier/StackingClassifier/) includes several different types of classifiers and predictions are made by averaging the probabilities from the individual classifiers.  
 
 ![](http://rasbt.github.io/mlxtend/user_guide/classifier/StackingClassifier_files/stackingclassification_overview.png)
 
 
-The Voting Classifier had following 9 models in it:
+The Voting Classifier had following 11 models in it:
 
 | Classifier | Parameters 
 |--|--|
-| ExtraTreesClassifier | MinMax, max_features=0.3, min_sample_leaf = 0.01, n_estimators=25 |
-| LightGBMClassifier | MaxAbs, num_leaves=31, n_estimators=100, max_depth=-1 |
-| ExtraTreesClassifier | MinMax, min_samples_split=0.15, max_features=0.9, n_estimators = 10 |
-| ExtraTreesClassifier | RobustScaler, min_samples_split=0.15, n_estimators=25, max_features=0.5 |
-| RandomForestClassifier | MinMax, max_depth = none, min_sample_leaf = 0.01, n_estimators = 10 | XGBoostClassifier | MaxAbs, max_depth = -1, learning_rate=0.3, n_estimators=100 
-| RandomForestClassifier | MinMax, max_features='log2',n_estimators=25, min_samples_leaf=0.01
-| RandomForestClassifier | MnMax, min_samples_leaf=0.035, max_features='sqrt', min_samples_split=0.01
-| KNeighborsClassifier | sparsenormalizer, leaf_size=30,n_neighbors=9, p=2, 
+| 1.RandomForestClassifier | MaxAbs, min_samples_leaf=0.061,n_estimators=50,criterion='gini'  |
+| 2. RandomForestClassifier | MinMax, RandomForestClassifier, n_estimators=25 |
+| 3. LightGBMClassifier | MaxAbsx, reg_alpha=0.68,learning_rate=0.042,max_bin=210  |
+| 4. LightGBMClassifier | MaxAbs, min_samples_split=0.15, n_estimators=400 |
+| 5. ExtraTreesClassifier | MinMax, min_samples_split=0.15, n_estimators=2 |
+| 6. ExtraTreesClassifier | MinMax, min_samples_split=0.15, n_estimators=10
+| 7. RandomForestClassifier | MinMax, max_features='log2',n_estimators=25, min_samples_leaf=0.01
+| 8. KNeighborsClassifier | sparsenormalizer, leaf_size=30,n_neighbors=9, p=2
+| 9. RandomForestClassifier | PCA, n_estimators=100, , min_samples_split=0.525
+| 10. XGBoostClassifier | MaxAbs, learning_rate=0.300000012, max_delta_step=0
+| 11. XGBoostClassifier | StandardScaler, base_score=0.5, learning_rate=0.40, eta=0.4
 
 Below screenshot shows how different models performed. The best models were Voting Ensemble, Stacking Ensemble and ExtremeRandomtrees. Voting classifier did significantly better than the rest.
 
@@ -96,17 +99,19 @@ Below screenshot shows how different models performed. The best models were Voti
 The final VotingClassifier model with its parameters are below: 
 
 The weights of the model are : 
-|Classifier| Weight|
+| Classifier | Parameters 
 |--|--|
-| ExtraTreesClassifier | 20% |
-| LightGBMClassifier | 13% |
-| ExtraTreesClassifier | 6.6% |
-| ExtraTreesClassifier | 6.6% |
-| RandomForestClassifier | 13% |
-| XGBoostClassifier | 20% |
-| RandomForestClassifier | 6.6% |
-| RandomForestClassifier | 6.6% |
-| KNeighborsClassifier | 6.6% |
+| 1.RandomForestClassifier | 6.6%  |
+| 2. RandomForestClassifier | 13.3% |
+| 3. LightGBMClassifier | 6.6%  |
+| 4. LightGBMClassifier | 6.6% |
+| 5. ExtraTreesClassifier | 13.3% |
+| 6. ExtraTreesClassifier | 13.3%
+| 7. RandomForestClassifier | 6.6%
+| 8. KNeighborsClassifier | 6.6%
+| 9. RandomForestClassifier | 6.6%
+| 10. XGBoostClassifier | 6.6%
+| 11. XGBoostClassifier | 13.3%
 
 
 
@@ -159,14 +164,14 @@ Below plot shows how the hypertuning progressed. Bayesian optimization progressi
 
 ![](https://raw.githubusercontent.com/sapawar4/nd00333-capstone/master/starter_file/images/hpo2.JPG)
 
-The difference between VotingClassifier from HyperDrive and AutoML is that, HyperDrive models use the same preprocessing steps but are different types of algorithms (tree + linear), whereas AutoML models are mostly tree-based and have different preprocessing steps (Standard scaling, Max Abs Scaling etc.). HyperDrive includes LogisticRegression, Gradient Boosting, RandomForest, SVC. 
+The difference between VotingClassifier from HyperDrive and AutoML is that, HyperDrive models use the same preprocessing steps but are different types of algorithms (tree + linear), whereas AutoML models are all tree-based and have different preprocessing steps (Standard scaling, Max Abs Scaling etc.). HyperDrive includes LogisticRegression, Gradient Boosting, RandomForest, SVC. 
 
 HyperDrive models is more diverse and diverse models tend to generalize better.
 
 |Method|AUC  |
 |--|--|
 |HyperDrive  | 77% |
-|AutoML  | 76.7% |
+|AutoML  | 77.6.7% |
 
 
 
@@ -189,7 +194,7 @@ Service was deleted after testing.
 
 
 ## Screen Recording
-Youtube: https://youtu.be/9Im2AntsmBU
+Youtube: https://youtu.be/kYIzsh08b68
 
 ## Standout Suggestions
 1. Try undersampling, oversampling, SMOTE etc
